@@ -18,7 +18,6 @@
     div {
         width: 100vw;
         position: relative;
-
         display: flex;
         flex-flow: column wrap;
         align-items: center;
@@ -26,6 +25,7 @@
 
     input {
         font-size: 18px;
+        padding: 0px 20px;
         width: 400px;
         height: 50px;
         border-radius: 10px;

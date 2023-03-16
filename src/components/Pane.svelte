@@ -7,11 +7,12 @@
 
 <div class="card">
     <h1>{ name }</h1>
+    <p class="topic">{ topic.toLowerCase() }</p>
     {#if buffering}
-        <div class="loader"></div>
-
+        <div class="indeterminate-progress-bar">
+            <div class="indeterminate-progress-bar__progress"></div>
+        </div>
     {:else}
-        <p class="topic">{ topic.toLowerCase() }</p>
         <p>{ description }</p>
     {/if}
 </div>
@@ -41,18 +42,46 @@
         padding: 20px;
     }
 
-    .loader {
-        border: 16px solid #f3f3f3; /* Light grey */
-        border-top: 16px solid #3498db; /* Blue */
-        border-radius: 50%;
-        width: 80px;
-        margin: 10px auto 10px;
-        height: 80px;
-        animation: spin 2s linear infinite;
+    .indeterminate-progress-bar {
+        /* Color */
+        background-color: #d1d5db;
+
+        /* Rounded border */
+        border-radius: 9999px;
+
+        /* Size */
+        margin: 20px;
+        height: 0.5rem;
+
+        position: relative;
+        overflow: hidden;
     }
 
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    .indeterminate-progress-bar__progress {
+        /* Color */
+        background-color: #3b82f6;
+
+        /* Rounded border */
+        border-radius: 9999px;
+
+        /* Absolute position */
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        width: 50%;
+
+        /* Move the bar infinitely */
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-name: indeterminate-progress-bar;
     }
+
+    @keyframes indeterminate-progress-bar {
+        from {
+            left: -50%;
+        }
+        to {
+            left: 100%;
+        }
+}
 </style>

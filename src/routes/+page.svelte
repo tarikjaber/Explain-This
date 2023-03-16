@@ -18,14 +18,26 @@
 
     const url = 'https://api.openai.com/v1/chat/completions'
 
-    async function fetchDescription() {
-        let apiKey = localStorage.getItem("apiKey")
-        if (apiKey === null) {
-            while (apiKey === null || apiKey === "") {
-                apiKey = prompt("Please enter your OpenAI API key")
+    function getApiKey(reset: boolean = false) {
+        let apiKey = localStorage.getItem("apiKey");
+
+        console.log("get api key called");
+
+        if (reset || !apiKey) {
+            window.open("https://platform.openai.com/account/api-keys", "_blank")
+            apiKey = prompt("Please enter your OpenAI API key. The API key is stored locally.");
+            while (!apiKey) {
+                apiKey = prompt("You must enter an API key to use this website.");
             }
-            localStorage.setItem("apiKey", apiKey)
+            localStorage.setItem("apiKey", apiKey);
         }
+
+        return apiKey;
+    }
+
+
+    async function fetchDescription() {
+        let apiKey = getApiKey()
 
         const data = {
             model: 'gpt-3.5-turbo',
@@ -63,7 +75,10 @@
                 individuals = json;
                 buffering = false;
             })
-            .catch((err) => console.error(err))
+            .catch((err) => {
+                alert("ChatGPT API is overloaded or your API Key is Invalid.")
+                console.error(err);
+            })
     }
 
     onMount(fetchDescription)
@@ -72,9 +87,13 @@
         topic = event.detail
         fetchDescription()
     }
+
+    function handleApi(event: CustomEvent) {
+        getApiKey(true);
+    }
 </script>
 
-<Navbar />
+<Navbar on:clicked={handleApi}/>
 <div class="flex-container">
     <Input on:entered={handleEntered}/>
     {#each Object.entries(individuals) as [individual, description]}
@@ -83,9 +102,6 @@
 </div>
 
 <style>
-
-
-
     .flex-container {
         margin-top: 30px;
         display: flex;
