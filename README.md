@@ -4,18 +4,8 @@
 
 SvelteKit web application that explains topics to a child, teen, college student, grad student, and expert.
 
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+It utilizes the ChatGPT API to generate explanations with one API request per search instead of a request for each
+group above. The response is streamed to the user as it is generated.
 
 ## Developing
 To start a local development server:
@@ -29,7 +19,7 @@ npm run dev -- --open
 
 ## Building
 
-To create a production version of explain this:
+To create a production version of Explain This:
 
 ```bash
 npm run build
