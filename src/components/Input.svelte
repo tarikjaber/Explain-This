@@ -35,20 +35,22 @@
 
 <style>
     div {
-        width: 100vw;
+        width: calc(100% - 40px);
         position: relative;
         display: flex;
         justify-content: center;
+        margin:0 20px;
     }
 
     input {
+        max-width: 300px;
         font-size: 18px;
         padding: 0px 20px;
         border: 3px solid black;
         height: 50px;
         border-style: solid none solid solid;
         border-radius: 8px 0 0 8px;
-        flex-shrinK: 1;
+        width: 100%;
     }
 
     input:focus {
