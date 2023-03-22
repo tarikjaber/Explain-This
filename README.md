@@ -1,6 +1,9 @@
-# create-svelte
+# Explain This
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+![Explain This example](static/example.png)
+
+SvelteKit web application that explains topics to a child, teen, college student, grad student, and expert.
+
 
 ## Creating a project
 
@@ -15,8 +18,7 @@ npm create svelte@latest my-app
 ```
 
 ## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+To start a local development server:
 
 ```bash
 npm run dev
@@ -27,7 +29,7 @@ npm run dev -- --open
 
 ## Building
 
-To create a production version of your app:
+To create a production version of explain this:
 
 ```bash
 npm run build
