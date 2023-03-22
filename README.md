@@ -2,12 +2,19 @@
 
 ![Explain This example](static/example.png)
 
-SvelteKit web application that explains topics to a child, teen, college student, grad student, and expert.
+Explain This is a SvelteKit web application that explains topics to a child, teen, college student, grad student, and expert.
 
 It utilizes the ChatGPT API to generate explanations with one API request per search instead of a request for each
 group above. The response is streamed to the user as it is generated.
 
 ## Developing
+Clone the repository locally and install the dependencies:
+
+```bash
+git clone https://github.com/tarikjaber/Explain-This.git
+npm install
+````
+
 To start a local development server:
 
 ```bash
