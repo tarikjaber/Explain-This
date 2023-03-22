@@ -11,8 +11,6 @@
     const url = 'https://api.openai.com/v1/chat/completions'
 
     async function fetchDescription() {
-        console.log('fetch description')
-        console.log('api key: ' + apiKey)
         const data = {
             model: 'gpt-3.5-turbo',
             messages: [
@@ -33,8 +31,6 @@
             body: JSON.stringify(data),
         })
 
-        console.log(response)
-
         if (!response.ok || response.body === null) {
             if (response.status === 401) {
                 alert('Your API Key is invalid. Please enter a valid API Key.')
@@ -53,7 +49,6 @@
 
         while (true) {
             const { done, value } = await reader.read()
-            console.log(new TextDecoder().decode(value))
             let decoded = new TextDecoder().decode(value).split('data: ')[1]
             let responseJson = JSON.parse(decoded)
 
@@ -73,13 +68,6 @@
                 const colonIndex = description.indexOf(':')
                 return description.substring(colonIndex + 1)
             })
-            console.log(descriptions)
-
-            // const endOfLine = content.indexOf("\n\n");
-            // if (endOfLine >= 0) {
-            //   descriptions.push(content.substring(0, endOfLine).trim().replace(/^.*?: /, ""));
-            //   content = content.substring(endOfLine + 2);
-            // }
         }
     }
 
