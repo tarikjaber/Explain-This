@@ -16,6 +16,7 @@
             apiKey = prompt(
                 'Please enter your OpenAI API key. The API key is stored locally.'
             )
+            console.log(apiKey)
             localStorage.setItem('apiKey', apiKey ?? "")
         }
 

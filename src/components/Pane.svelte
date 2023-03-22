@@ -4,17 +4,12 @@
     export let name: string
     export let topic: string
     export let description: string
-    export let buffering: boolean
 </script>
 
 <div class="card">
     <h1>{name.toLowerCase()}</h1>
     <p class="topic">{topic.toLowerCase()}</p>
-    {#if buffering}
-        <ProgressBar />
-    {:else}
-        <p>{description}</p>
-    {/if}
+    <p>{description}</p>
 </div>
 
 <style lang="scss">

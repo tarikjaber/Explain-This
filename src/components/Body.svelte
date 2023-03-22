@@ -5,17 +5,8 @@
     export let apiKey: string
     let topic: string
     let searched: boolean = false
-    let buffering: boolean = true
 
-    let placeholder =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    let descriptions = [
-        placeholder,
-        placeholder,
-        placeholder,
-        placeholder,
-        placeholder,
-    ]
+    let descriptions: string[] = []
     let groups = ['Child', 'Teen', 'College Student', 'Grad Student', 'Expert']
     const url = 'https://api.openai.com/v1/chat/completions'
 
@@ -30,9 +21,8 @@
                     content: `Explain ${topic} to a child, teen, college student, grad student, and expert. Separate each of the 5 paragraphs with a newline. Format the response like "Child: <description> Teen: <description> ..."`,
                 },
             ],
+            stream: true,
         }
-
-        buffering = true
 
         const response = await fetch(url, {
             method: 'POST',
@@ -57,20 +47,44 @@
             return
         }
 
-        let responseJson = await response.json()
-        let content: string = responseJson.choices[0].message.content.trim()
-        let rawDescriptions = content.split('\n\n')
-        descriptions = rawDescriptions.map((description) => {
-            const colonIndex = description.indexOf(':')
-            return description.substring(colonIndex + 1)
-        })
+        const reader = response.body.getReader()
 
-        buffering = false
+        let res = ''
+
+        while (true) {
+            const { done, value } = await reader.read()
+            console.log(new TextDecoder().decode(value))
+            let decoded = new TextDecoder().decode(value).split('data: ')[1]
+            let responseJson = JSON.parse(decoded)
+
+            let content = responseJson.choices[0].delta.content
+            let finish = responseJson.choices[0].finish_reason
+
+            if (finish === 'stop') {
+                break
+            }
+
+            if (!content) {
+                continue
+            }
+
+            res += content
+            descriptions = res.trim().split('\n\n').map((description) => {
+                const colonIndex = description.indexOf(':')
+                return description.substring(colonIndex + 1)
+            })
+            console.log(descriptions)
+
+            // const endOfLine = content.indexOf("\n\n");
+            // if (endOfLine >= 0) {
+            //   descriptions.push(content.substring(0, endOfLine).trim().replace(/^.*?: /, ""));
+            //   content = content.substring(endOfLine + 2);
+            // }
+        }
     }
 
     function handleSearch(event: CustomEvent) {
         topic = event.detail
-        searched = true
         fetchDescription()
     }
 </script>
@@ -78,11 +92,9 @@
 <div class="body">
     <Input on:entered={handleSearch} on:clicked={handleSearch} />
     <div class="panes">
-        {#if searched}
-            {#each descriptions as description, i}
-                <Pane name={groups[i]} {topic} bind:description {buffering} />
-            {/each}
-        {/if}
+        {#each descriptions as description, i}
+            <Pane name={groups[i]} {topic} {description}/>
+        {/each}
     </div>
 </div>
 
