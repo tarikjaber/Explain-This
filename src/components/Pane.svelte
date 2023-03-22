@@ -1,6 +1,7 @@
 <script lang="ts">
     import ProgressBar from './ProgressBar.svelte'
 
+    export let buffering: boolean
     export let name: string
     export let topic: string
     export let description: string
@@ -9,7 +10,11 @@
 <div class="card">
     <h1>{name.toLowerCase()}</h1>
     <p class="topic">{topic.toLowerCase()}</p>
-    <p>{description}</p>
+    {#if buffering}
+        <p> </p>
+    {:else}
+        <p>{description}</p>
+    {/if}
 </div>
 
 <style lang="scss">

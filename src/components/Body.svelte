@@ -73,6 +73,7 @@
 
     function handleSearch(event: CustomEvent) {
         topic = event.detail
+        searched = true
         fetchDescription()
     }
 </script>
@@ -80,9 +81,11 @@
 <div class="body">
     <Input on:entered={handleSearch} on:clicked={handleSearch} />
     <div class="panes">
-        {#each descriptions as description, i}
-            <Pane name={groups[i]} {topic} {description}/>
-        {/each}
+        {#if searched}
+            {#each groups as group, i}
+                <Pane name={group} {topic} description={descriptions[i] ?? ""} buffering={i > descriptions.length - 1}/>
+            {/each}
+        {/if}
     </div>
 </div>
 
