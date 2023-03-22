@@ -48,8 +48,10 @@
         if (!response.ok || response.body === null) {
             if (response.status === 401) {
                 alert('Your API Key is invalid. Please enter a valid API Key.')
+                searched = false
             } else {
                 alert('ChatGPT API is overloaded. Please try again later.')
+                searched = false
             }
             console.error(`API request failed with status ${response.status}`)
             return
@@ -73,23 +75,28 @@
     }
 </script>
 
-<div class="flex-container">
+<div class="body">
     <Input on:entered={handleSearch} on:clicked={handleSearch} />
-    {#if searched}
-        {#each descriptions as description, i}
-            <Pane name={groups[i]} {topic} bind:description {buffering} />
-        {/each}
-    {/if}
+    <div class="panes">
+        {#if searched}
+            {#each descriptions as description, i}
+                <Pane name={groups[i]} {topic} bind:description {buffering} />
+            {/each}
+        {/if}
+    </div>
 </div>
 
 <style>
-    .flex-container {
+    .body {
         margin-top: 30px;
+    }
+
+    .panes {
+        margin-top: 10px;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
     }
-
 
     p {
         padding: 0 20%;

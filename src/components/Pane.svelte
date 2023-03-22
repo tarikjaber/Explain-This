@@ -23,7 +23,7 @@
     .card {
         outline: solid black;
         border-radius: 10px;
-        margin: 30px;
+        margin: 20px;
 
         @media (min-width: #{$large-screen}) {
             width: 400px;

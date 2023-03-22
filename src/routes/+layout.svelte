@@ -1,5 +1,3 @@
-
-
 <slot />
 
 <style>

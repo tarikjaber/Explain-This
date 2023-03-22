@@ -10,7 +10,7 @@
 </script>
 
 <div class="navbar">
-    <h1>Explain This</h1>
+    <p>Explain This</p>
     <Button text={"API Key"} on:clicked={handleClick} />
     <a href="https://github.com/tarikjaber/Explain-This" target="_blank">
         <img src="/github-mark-white.png" alt="GitHub Contribution Icon" class="github-icon">
@@ -18,9 +18,11 @@
 </div>
 
 <style>
-    h1 {
+    p {
         margin: 0;
-        padding: 20px 30px;
+        font-size: 20px;
+        padding: 35px 30px;
+        font-weight: bold;
     }
 
     img {

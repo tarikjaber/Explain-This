@@ -56,9 +56,9 @@
     }
 
     button {
-        width: 56px;
+        width: 55px;
         background-color: white;
-        height: 56px;
+        height: 55px;
         padding: 8px;
         font-size: medium;
         font-weight: bold;
