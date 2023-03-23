@@ -86,6 +86,7 @@
     }
 
     function handleSearch(event: CustomEvent) {
+        console.log("hi")
         topic = event.detail
         searched = true
         fetchDescription()
@@ -117,6 +118,7 @@
                     {topic}
                     description={descriptions[i] ?? ''}
                     buffering={i > descriptions.length - 1}
+                    on:selected={handleSearch}
                 />
             {/each}
         {/if}

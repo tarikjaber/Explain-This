@@ -1,10 +1,18 @@
 <script lang="ts">
-    import ProgressBar from './ProgressBar.svelte'
-
+    import { createEventDispatcher } from 'svelte';
     export let buffering: boolean
     export let name: string
     export let topic: string
     export let description: string
+    
+    const dispatch = createEventDispatcher();
+
+    function handleSelection() {
+        const selectedText = window.getSelection()?.toString().trim();
+        if (selectedText) {
+            dispatch('selected', selectedText);
+        }
+    }
 </script>
 
 <div class="card">
@@ -13,7 +21,7 @@
     {#if buffering}
         <p> </p>
     {:else}
-        <p>{description} </p>
+        <p on:mouseup={handleSelection}>{description} </p>
     {/if}
 </div>
 
