@@ -96,6 +96,17 @@
         window.history.pushState({}, '', url.toString())
     }
 
+    function handleHistory() {
+        const urlParams = new URLSearchParams(window.location.search)
+        topic = urlParams.get('topic') ?? ''
+        searched = topic !== ''
+        if (searched) {
+            fetchDescription()
+        } else {
+            descriptions = []
+        }
+    }
+
     onMount(() => {
         const urlParams = new URLSearchParams(window.location.search)
         topic = urlParams.get('topic') ?? ''
@@ -105,6 +116,8 @@
             searched = true
             fetchDescription()
         }
+
+        window.onpopstate = handleHistory
     })
 </script>
 
