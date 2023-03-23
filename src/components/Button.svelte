@@ -24,6 +24,7 @@
         border-radius: 8px;
         color: white;
         border: none;
+        transition: all 0.1s ease-in-out;
     }
 
     button:hover {

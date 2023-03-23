@@ -65,6 +65,9 @@
 
             res += content
             descriptions = res.trim().split('\n\n').map((description) => {
+                if (description.length < 17) {
+                    return " "
+                }
                 const colonIndex = description.indexOf(':')
                 return description.substring(colonIndex + 1)
             })
