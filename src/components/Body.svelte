@@ -1,16 +1,23 @@
 <script lang="ts">
     import Input from './Input.svelte'
     import Pane from './Pane.svelte'
+    import { onMount } from 'svelte';
 
     export let apiKey: string
     let topic: string
     let searched: boolean = false
-
+    let controller:AbortController | null = null
     let descriptions: string[] = []
     let groups = ['Child', 'Teen', 'College Student', 'Grad Student', 'Expert']
     const url = 'https://api.openai.com/v1/chat/completions'
 
     async function fetchDescription() {
+        if (controller) {
+            controller.abort()
+        }
+
+        controller = new AbortController()
+
         const data = {
             model: 'gpt-3.5-turbo',
             messages: [
@@ -29,6 +36,7 @@
                 Authorization: `Bearer ${apiKey}`,
             },
             body: JSON.stringify(data),
+            signal: controller.signal,
         })
 
         if (!response.ok || response.body === null) {
@@ -64,13 +72,16 @@
             }
 
             res += content
-            descriptions = res.trim().split('\n\n').map((description) => {
-                if (description.length < 17) {
-                    return " "
-                }
-                const colonIndex = description.indexOf(':')
-                return description.substring(colonIndex + 1)
-            })
+            descriptions = res
+                .trim()
+                .split('\n\n')
+                .map((description) => {
+                    if (description.length < 17) {
+                        return ' '
+                    }
+                    const colonIndex = description.indexOf(':')
+                    return description.substring(colonIndex + 1)
+                })
         }
     }
 
@@ -78,7 +89,22 @@
         topic = event.detail
         searched = true
         fetchDescription()
+
+        const url = new URL(window.location.href)
+        url.searchParams.set('topic', topic)
+        window.history.pushState({}, '', url.toString())
     }
+
+    onMount(() => {
+        const urlParams = new URLSearchParams(window.location.search)
+        topic = urlParams.get('topic') ?? ''
+        apiKey = localStorage.getItem('apiKey') ?? ''
+
+        if (topic) {
+            searched = true
+            fetchDescription()
+        }
+    })
 </script>
 
 <div class="body">
@@ -86,7 +112,12 @@
     <div class="panes">
         {#if searched}
             {#each groups as group, i}
-                <Pane name={group} {topic} description={descriptions[i] ?? ""} buffering={i > descriptions.length - 1}/>
+                <Pane
+                    name={group}
+                    {topic}
+                    description={descriptions[i] ?? ''}
+                    buffering={i > descriptions.length - 1}
+                />
             {/each}
         {/if}
     </div>

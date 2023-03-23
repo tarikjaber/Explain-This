@@ -13,7 +13,7 @@
     {#if buffering}
         <p> </p>
     {:else}
-        <p>{description}</p>
+        <p>{description} </p>
     {/if}
 </div>
 

@@ -32,5 +32,8 @@
     })
 </script>
 
+<svelte:head>
+    <title>Explain This</title>
+</svelte:head>
 <Navbar on:clicked={handleApi}/>
 <Body apiKey={apiKey ?? ""}/>
