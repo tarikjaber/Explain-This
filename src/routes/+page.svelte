@@ -1,6 +1,7 @@
 <script lang="ts">
     import Navbar from '../components/Navbar.svelte'
     import Body from '../components/Body.svelte'
+    import { onMount } from 'svelte'
 
     let apiKey: string | null
 
@@ -25,6 +26,10 @@
     function handleApi(event: CustomEvent) {
         getApiKey(true)
     }
+
+    onMount(() => {
+        getApiKey()
+    })
 </script>
 
 <Navbar on:clicked={handleApi}/>
