@@ -7,6 +7,11 @@ Explain This is a SvelteKit web application that explains topics to a child, tee
 It utilizes the ChatGPT API to generate explanations with one API request per search instead of a request for each
 group above. The response is streamed to the user as it is generated.
 
+## Features
+- Search for a topic
+- Select text to get explained
+- topic query parameter to prefill search
+
 ## Developing
 Clone the repository locally and install the dependencies:
 
